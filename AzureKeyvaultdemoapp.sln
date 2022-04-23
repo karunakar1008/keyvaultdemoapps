@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ADALDemoApp", "ADALDemoApp\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MSALDemoApp", "MSALDemoApp\MSALDemoApp.csproj", "{B2B27C88-9778-4307-9698-9B0C5540C126}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdLoginDemoApp", "AdLoginDemoApp\AdLoginDemoApp.csproj", "{34C962BE-1C36-486D-9A0A-7E0A4BF7957B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdLoginDemoApp", "AdLoginDemoApp\AdLoginDemoApp.csproj", "{34C962BE-1C36-486D-9A0A-7E0A4BF7957B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AD programming", "AD programming", "{168CAB7B-FE92-45A5-A3E7-D4A005E8A5F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9B4785BC-C554-43F2-8406-6FDEBF4C6EE4} = {168CAB7B-FE92-45A5-A3E7-D4A005E8A5F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9E178681-297A-4E49-AF70-4E449E595D50}
