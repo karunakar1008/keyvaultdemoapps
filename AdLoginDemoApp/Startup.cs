@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,34 @@ namespace AdLoginDemoApp
             //});
             services.AddRazorPages()
                  .AddMicrosoftIdentityUI();
+
+            //To allow specific tenants incase of multi tenant
+            //services.Configure<OpenIdConnectOptions>(OpenIdConnectDefaults.AuthenticationScheme, options =>
+            //{
+            //    options.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        IssuerValidator = ValidateSpecificIssuers,
+            //        ValidateIssuer = true
+            //    };
+            //});
+
+        }
+        private string ValidateSpecificIssuers(string issuer, SecurityToken securityToken,
+ TokenValidationParameters validationParameters)
+        {
+            var validIssuers = GetAcceptedTenantIds()
+            .Select(tid => $"https://login.microsoftonline.com/{tid}/v2.0");
+            if (validIssuers.Contains(issuer))
+                return issuer;
+            throw new SecurityTokenInvalidIssuerException("The sign-in user's account does not belong to one of the tenants that this Web App accepts users from.");
+        }
+        private string[] GetAcceptedTenantIds()
+        {
+            return new[]
+            {
+             "82d8af3b-d3f9-465c-b724-0fb186cc28c7",
+             "2de8d54d-5576-4bf6-b419-6065cb1e700e"
+             };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
