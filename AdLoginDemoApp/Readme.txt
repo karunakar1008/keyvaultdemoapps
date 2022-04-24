@@ -1,0 +1,1 @@
+﻿This app is to demo the first case where web application uses azure AD login to authenticate.
