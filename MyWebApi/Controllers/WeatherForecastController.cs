@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,15 @@ namespace MyWebApi.Controllers
         }
 
         [HttpGet]
+        [Authorize]
+
         public IEnumerable<WeatherForecast> Get()
         {
+            var apiClaim = User.Claims.Where(c => c.Type == "http://schemas.microsoft.com/identity/claims/scope" && c.Value.Contains("user_impersonation")).FirstOrDefault();
+            if (apiClaim == null)
+            {
+                throw new ApplicationException("UnauthorizedThe Scope claim does not contain 'user_impersonation' or scope claim not found");
+            }
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

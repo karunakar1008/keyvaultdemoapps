@@ -29,8 +29,14 @@ namespace MvcWebApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
-                .AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+         
+            services.AddMicrosoftIdentityWebAppAuthentication(Configuration, "AzureAd")
+            .EnableTokenAcquisitionToCallDownstreamApi(new string[] { "https://prasantibogyarihotmail.onmicrosoft.com/MyWebAPI/user_impersonation" })
+            .AddInMemoryTokenCaches();
+
+            services.AddControllersWithViews().AddMicrosoftIdentityUI();
+
+
 
             services.AddControllersWithViews(options =>
             {

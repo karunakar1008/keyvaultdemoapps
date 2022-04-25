@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Web;
 using MvcWebApp.Models;
 using Newtonsoft.Json;
 using System;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace MvcWebApp.Controllers
@@ -18,15 +20,27 @@ namespace MvcWebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IConfiguration _configuration;
 
-        public HomeController(ILogger<HomeController> logger,IConfiguration configuration)
+        IConfiguration _config;
+        readonly ITokenAcquisition _tokenAcquisition;
+        public HomeController(ILogger<HomeController> logger, IConfiguration config, ITokenAcquisition tokenAcquisition)
         {
-            _logger = logger;
-            _configuration = configuration;
+            _configuration = config;
+            _tokenAcquisition = tokenAcquisition;
         }
+
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [AuthorizeForScopes(Scopes = new[] { "https://prasantibogyarihotmail.onmicrosoft.com/MyWebAPI/user_impersonation" })]
+        public async Task<IActionResult> WeatherForecast()
+        {
             HttpClient httpClient = new HttpClient();
+            string[] scopes = new string[] { "https://prasantibogyarihotmail.onmicrosoft.com/MyWebAPI/user_impersonation" };
+            string token = await _tokenAcquisition.GetAccessTokenForUserAsync(scopes);
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string url = _configuration["ApiUrl"] + "weatherforecast";
             var request = new HttpRequestMessage()
             {
@@ -39,6 +53,7 @@ namespace MvcWebApp.Controllers
             };
             return View(cols);
         }
+
 
         public IActionResult Privacy()
         {
