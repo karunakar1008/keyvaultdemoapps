@@ -24,7 +24,7 @@ namespace MyMobileClientApp
             AuthenticationResult result = await app.AcquireTokenInteractive(scopes).ExecuteAsync();
             Console.WriteLine($"Token:\t{result.AccessToken}");
 
-            //string endpoint = "https://graph.microsoft.com/v1.0/me";
+            string endpoint = "https://graph.microsoft.com/v1.0/me";
             var client = new HttpClient();
             var authHeader = new AuthenticationHeaderValue("Bearer", result.AccessToken);
             client.DefaultRequestHeaders.Authorization = authHeader;
