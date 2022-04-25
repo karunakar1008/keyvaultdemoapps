@@ -1,0 +1,3 @@
+This folder is used to demo on Calling a Web API from a Daemon Application (server to server call) – Authentication Flow: Client Credentials
+
+API Permissions->Add permission->Application permissions->My APIs->Select API->Application permissions
